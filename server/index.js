@@ -22,8 +22,21 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
+// CORS configuration for production deployment
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:3003',
+    'https://smart-task-planner.vercel.app',
+    /^https:\/\/.*\.vercel\.app$/,  // Allow all Vercel preview deployments
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
